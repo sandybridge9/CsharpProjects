@@ -20,13 +20,10 @@ namespace Pvz1
             InitializeComponent();
             Initialize();
         }
-
         float x1, x2; // x1 - the beggining x2 - the end of the isolation interval
         int iii; // iteration number
         double currentStep; // current step size used in iterations
-
         Series Fx, Root; // Fx - graph of the function, Root - used to mark roots
-
         //Polynomial function
         private double F(double x)
         {
@@ -37,15 +34,34 @@ namespace Pvz1
         {
             return (double)(Math.Pow(Math.E, Math.Sin(x)) - (x/10));
         }
-
         //Function of volume(V) which is directly dependant on height(h) of the liquid - V(h) = (PI*r^2*h)/2+(r^2*sin(8*PI*h))/16 <--- where r = 0.4m, V = 0.025m^3
         private double V(double h)
         {
             return (double)(((Math.PI*Math.Pow(0.4,2)*h)/2)+((Math.Pow(0.4,2)*Math.Sin(8*Math.PI*h))/16));
         }
-
+        //methods which draws X and Y axis on the chart
+        private void drawAxis()
+        {
+            // drawing of X and Y axis
+            Fx = chart1.Series.Add("X axis");
+            Fx.ChartType = SeriesChartType.Line;
+            for (int i = -22; i < 22; i++)
+            {
+                Fx.Points.AddXY(i, 0);
+            }
+            Fx.Color = Color.Black;
+            Fx.BorderWidth = 2;
+            Fx = chart1.Series.Add("Y axis");
+            Fx.ChartType = SeriesChartType.Line;
+            for (int i = -10; i < 10; i++)
+            {
+                Fx.Points.AddXY(0, i);
+            }
+            Fx.Color = Color.Black;
+            Fx.BorderWidth = 2;
+        }
         /// <summary>
-        /// A function which selects which method to use
+        /// selects which method to use based on functionNumber
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
@@ -112,7 +128,9 @@ namespace Pvz1
             }
         }
         /// <summary>
-        /// A function which 
+        /// A function which finds roots of the function in the given interval by comparing starting point with the xMid point which is calculated using coefficient k, and start and end values.
+        /// If signs of both start and xMid point values are the same, then the start point is equal to xMid point for the next iteration, otherwise the end point is equal to xMid point. This sequence
+        /// is carried out a selected number of times, more times meaning greater accuracy, until the xMid becomes the root.
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
@@ -120,9 +138,8 @@ namespace Pvz1
         /// <param name="function"></param>
         private void ChordsMethod(double start, double end, int times, Func<double, double> function)
         {
-            double k = 0;
+            double k = 0; //coefficient used in xMid calculation
             double xMid = 0;
-
             for (int i = 0; i < times; i++)
             {
                 k = Math.Abs(function(start) / function(end));
@@ -139,7 +156,12 @@ namespace Pvz1
             Root.Points.AddXY(xMid, 0);
             richTextBox1.AppendText("Function value is: " + function(xMid) + " when x equals: " + xMid + "\n");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="iterations"></param>
+        /// <param name="function"></param>
         private void SecantMethod(ref double start, ref int iterations, Func<double, double> function)
         {
             double h = 0.001;
@@ -154,7 +176,6 @@ namespace Pvz1
             richTextBox1.AppendText("Function value is: " + function(start) + " when x equals: " + start + "\n");
             Root.Points.AddXY(start, 0);
         }
-
         //button3_Click - button9_Click methods solve F(x) and G(x) in 3 different ways and solve V(h) using SecantMethod
         private void button3_Click(object sender, EventArgs e)
         {
@@ -164,6 +185,8 @@ namespace Pvz1
             x2 = 4;
             iii = 0;
             currentStep = 0.25f;
+            drawAxis();
+            richTextBox1.AppendText("F(x) using scanner method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("F(x)");
@@ -180,7 +203,6 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 1, F);
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
             ClearForm();
@@ -189,6 +211,8 @@ namespace Pvz1
             x2 = 4;
             iii = 0; 
             currentStep = 0.25f;
+            drawAxis();
+            richTextBox1.AppendText("F(x) using chords method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("F(x)");
@@ -205,7 +229,6 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 2, F);
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             ClearForm();
@@ -214,6 +237,8 @@ namespace Pvz1
             x2 = 4;
             iii = 0;
             currentStep = 0.25f;
+            drawAxis();
+            richTextBox1.AppendText("F(x) using Quasi-Newton secant method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("F(x)");
@@ -230,32 +255,16 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 3, F);
         }
-
         private void button6_Click(object sender, EventArgs e)
         {
             ClearForm();
-            PreparareForm(0, 20, -2, 10);
+            PreparareForm(0, 15, -2, 10);
             x1 = 1;
             x2 = 15;
-            //drawing of X and Y axis
-            Fx = chart1.Series.Add("X axis");
-            Fx.ChartType = SeriesChartType.Line;
-            for (int i = 0; i < 22; i++)
-            {
-                Fx.Points.AddXY(i, 0);
-            }
-            Fx.Color = Color.Black;
-            Fx.BorderWidth = 2;
-            Fx = chart1.Series.Add("Y axis");
-            Fx.ChartType = SeriesChartType.Line;
-            for (int i = -2; i < 10; i++)
-            {
-                Fx.Points.AddXY(0, i);
-            }
-            Fx.Color = Color.Black;
-            Fx.BorderWidth = 2;
+            drawAxis();
             iii = 0;
             currentStep = 0.25f;
+            richTextBox1.AppendText("G(x) using scanner method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("G(x)");
@@ -272,32 +281,16 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 1, G);
         }
-
         private void button7_Click(object sender, EventArgs e)
         {
             ClearForm();
-            PreparareForm(0, 20, -2, 10);
+            PreparareForm(0, 15, -2, 10);
             x1 = 1;
             x2 = 15;
-            // drawing of X and Y axis
-            Fx = chart1.Series.Add("X axis");
-            Fx.ChartType = SeriesChartType.Line;
-            for (int i = 0; i < 22; i++)
-            {
-                Fx.Points.AddXY(i, 0);
-            }
-            Fx.Color = Color.Black;
-            Fx.BorderWidth = 2;
-            Fx = chart1.Series.Add("Y axis");
-            Fx.ChartType = SeriesChartType.Line;
-            for (int i = -2; i < 10; i++)
-            {
-                Fx.Points.AddXY(0, i);
-            }
-            Fx.Color = Color.Black;
-            Fx.BorderWidth = 2;
+            drawAxis();
             iii = 0;
             currentStep = 0.25f;
+            richTextBox1.AppendText("G(x) using chords method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("G(x)");
@@ -314,32 +307,17 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 2, G);
         }
-
         private void button8_Click(object sender, EventArgs e)
         {
             ClearForm(); 
-            PreparareForm(0, 20, -2, 10);
+            PreparareForm(0, 15, -2, 10);
             //drawing of X and Y axis
             x1 = 1; 
-            x2 = 15; 
-            Fx = chart1.Series.Add("X axis");
-            Fx.ChartType = SeriesChartType.Line;
-            for (int i = 0; i < 22; i++)
-            {
-                Fx.Points.AddXY(i, 0);
-            }
-            Fx.Color = Color.Black;
-            Fx.BorderWidth = 2;
-            Fx = chart1.Series.Add("Y axis");
-            Fx.ChartType = SeriesChartType.Line;
-            for (int i = -2; i < 10; i++)
-            {
-                Fx.Points.AddXY(0, i);
-            }
-            Fx.Color = Color.Black;
-            Fx.BorderWidth = 2;
+            x2 = 15;
+            drawAxis();
             iii = 0;
             currentStep = 0.25f;
+            richTextBox1.AppendText("G(x) using Quasi-Newton secant method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("G(x)");
@@ -356,7 +334,6 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 3, G);
         }
-
         private void button9_Click(object sender, EventArgs e)
         {
             ClearForm();
@@ -365,6 +342,8 @@ namespace Pvz1
             x2 = 0.5f;
             iii = 0;
             currentStep = 0.25f;
+            drawAxis();
+            richTextBox1.AppendText("V(h) using Quasi-Newton secant method: \n");
             richTextBox1.AppendText("The beggining of the isolation interval is: " + x1 + " the end of the isolation interval is: " + x2 + " Step size: " + currentStep + "\n");
             // The function, the roots of which we need to find, is drawn
             Fx = chart1.Series.Add("V(h)");
@@ -381,26 +360,21 @@ namespace Pvz1
             Root.MarkerSize = 8;
             FindRoots(x1, x2, currentStep, 3, V);
         }        
-
-
         //-------------------Other Methods------------------------------
-
         /// <summary>
         /// Uždaroma programa
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             Close();
-        }
-        
+        }       
         /// <summary>
         /// Išvalomas grafikas ir consolė
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
             ClearForm();
-        }
-        
+        }     
         public void ClearForm()
         {
             richTextBox1.Clear(); // isvalomas richTextBox1

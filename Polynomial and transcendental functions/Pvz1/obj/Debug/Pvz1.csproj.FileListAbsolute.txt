@@ -62,3 +62,16 @@ C:\Users\Destroyer\Desktop\Pvz1\Pvz1\obj\Debug\Pvz1.csproj.CoreCompileInputs.cac
 C:\Users\Destroyer\Desktop\Pvz1\Pvz1\obj\Debug\Pvz1.csproj.CopyComplete
 C:\Users\Destroyer\Desktop\Pvz1\Pvz1\obj\Debug\Pvz1.exe
 C:\Users\Destroyer\Desktop\Pvz1\Pvz1\obj\Debug\Pvz1.pdb
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\bin\Debug\Pvz1.exe.config
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\bin\Debug\Pvz1.exe
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\bin\Debug\Pvz1.pdb
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\bin\Debug\MathNet.Numerics.dll
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\bin\Debug\MathNet.Numerics.xml
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.csprojAssemblyReference.cache
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.Form1.resources
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.Properties.Resources.resources
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.csproj.GenerateResource.cache
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.csproj.CoreCompileInputs.cache
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.csproj.CopyComplete
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.exe
+D:\Tadas\Documents\GitHub\CsharpProjects\Polynomial and transcendental functions\Pvz1\obj\Debug\Pvz1.pdb
